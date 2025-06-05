@@ -26,8 +26,9 @@ namespace DataAccess.Validator
                 }).WithMessage("Email is already used by another account.");
 
             RuleFor(x => x.AccountPassword)
-                .NotEmpty().WithMessage("Password is required.")
-                .MinimumLength(6).WithMessage("Password must be at least 6 characters.");
+                .MinimumLength(6).When(x => !string.IsNullOrEmpty(x.AccountPassword))
+                .WithMessage("Password must be at least 6 characters.");
+
 
             RuleFor(x => x.AccountRole)
                 .Must(role => role == 1 || role == 2)

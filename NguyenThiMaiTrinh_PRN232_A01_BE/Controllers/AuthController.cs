@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
+namespace NguyenThiMaiTrinh_PRN232_A01_BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -64,7 +64,7 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             {
                 1 => "Staff",
                 2 => "Lecturer ",
-                _ => "Admin"  
+                _ => "Admin"
             };
 
             var jwtSettings = _config.GetSection("Jwt");

@@ -1,12 +1,12 @@
 ﻿using DataAccess;
 using FUNewsApp.Models;
-using LePhuocDieuMy_PRN232_A01_BE.DTOs;
+using NguyenThiMaiTrinh_PRN232_A01_BE.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using System.Security.Claims;
 
-namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
+namespace NguyenThiMaiTrinh_PRN232_A01_BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -120,7 +120,8 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
 
             if (article.CreatedById != int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
                 return Forbid();
-
+            _repoNewsTags.DeleteTags(article.NewsArticleId);
+            _repoNewsTags.Save();
             _repo.Delete(article);
             _repo.Save();
             return NoContent();

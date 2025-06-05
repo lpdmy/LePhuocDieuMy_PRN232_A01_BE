@@ -4,13 +4,12 @@ using Entities.Model;
 using Entities.Validator;
 using FUNewsApp.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.Identity.Client;
 
-namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
+namespace NguyenThiMaiTrinh_PRN232_A01_BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

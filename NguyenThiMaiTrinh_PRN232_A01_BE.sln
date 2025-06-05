@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entiti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{7F85BABA-14B7-4838-8C31-3A66174481D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LePhuocDieuMy_PRN232_A01_BE", "LePhuocDieuMy_PRN232_A01_BE\LePhuocDieuMy_PRN232_A01_BE.csproj", "{D3FFD0B0-1603-4AD3-BBD8-16D7B96E88A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NguyenThiMaiTrinh_PRN232_A01_BE", "NguyenThiMaiTrinh_PRN232_A01_BE\NguyenThiMaiTrinh_PRN232_A01_BE.csproj", "{D3FFD0B0-1603-4AD3-BBD8-16D7B96E88A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

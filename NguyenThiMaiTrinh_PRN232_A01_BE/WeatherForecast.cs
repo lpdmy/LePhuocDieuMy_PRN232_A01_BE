@@ -1,4 +1,4 @@
-namespace LePhuocDieuMy_PRN232_A01_BE
+namespace NguyenThiMaiTrinh_PRN232_A01_BE
 {
     public class WeatherForecast
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LePhuocDieuMy_PRN232_A01_BE.DTOs
+namespace NguyenThiMaiTrinh_PRN232_A01_BE.DTOs
 {
     public class NewsArticleDTO
     {

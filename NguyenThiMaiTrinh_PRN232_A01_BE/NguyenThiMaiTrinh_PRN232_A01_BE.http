@@ -1,0 +1,6 @@
+@NguyenThiMaiTrinh_PRN232_A01_BE_HostAddress = http://localhost:5025
+
+GET {{NguyenThiMaiTrinh_PRN232_A01_BE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

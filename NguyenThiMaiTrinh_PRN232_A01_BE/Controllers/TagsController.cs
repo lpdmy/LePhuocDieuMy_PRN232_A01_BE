@@ -3,7 +3,7 @@ using FUNewsApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
+namespace NguyenThiMaiTrinh_PRN232_A01_BE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

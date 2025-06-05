@@ -19,6 +19,7 @@ namespace Entities.Validator
             RuleFor(x => x.AccountEmail)
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.")
+                .Must(NotBeAdminEmail).WithMessage("This email is reserved for system administrator.")
                 .Must(email => !accountRepo.GetAll().Any(a => a.AccountEmail == email))
                     .WithMessage("Email already exists.");
 
@@ -30,5 +31,11 @@ namespace Entities.Validator
                 .Must(role => role == 1 || role == 2)
                 .WithMessage("Account role must be 1 (Staff) or 2 (Lecturer).");
         }
+
+        private bool NotBeAdminEmail(string email)
+        {
+            return !string.Equals(email, "admin@FUNewsManagementSystem.org", StringComparison.OrdinalIgnoreCase);
+        }
     }
+
 }

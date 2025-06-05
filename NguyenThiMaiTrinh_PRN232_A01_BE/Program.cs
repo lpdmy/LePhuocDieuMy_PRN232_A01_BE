@@ -1,4 +1,4 @@
-using DataAccess;
+﻿using DataAccess;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,7 +31,16 @@ builder.Services.AddControllers()
   {
       options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
       options.JsonSerializerOptions.WriteIndented = true;
-  });
+  })
+   .AddJsonOptions(options =>
+   {
+       options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+   })
+   .AddOData(opt =>
+        opt.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
+        .AddRouteComponents("odata", GetEdmModel()));
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -93,15 +102,6 @@ builder.Services.AddDbContext<FUNewsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    })
-    .AddOData(opt =>
-        opt.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
-        .AddRouteComponents("odata", GetEdmModel()));
-
 
 builder.Services.AddAuthentication();
 
@@ -127,11 +127,28 @@ app.Run();
 
 static Microsoft.OData.Edm.IEdmModel GetEdmModel()
 {
-    var odataBuilder = new ODataConventionModelBuilder();
-    odataBuilder.EntitySet<SystemAccount>("SystemAccounts");
-    odataBuilder.EntitySet<NewsArticle>("NewsArticle");
-    odataBuilder.EntitySet<NewsTag>("NewsTag");
-    odataBuilder.EntitySet<Category>("Category");
-    odataBuilder.EntitySet<Tag>("Tag");
-    return odataBuilder.GetEdmModel();
+    var builder = new ODataConventionModelBuilder();
+
+    // SystemAccount
+    var account = builder.EntitySet<SystemAccount>("Account").EntityType;
+    account.HasKey(a => a.AccountId);
+
+    // NewsArticle
+    var article = builder.EntitySet<NewsArticle>("NewsArticles").EntityType;
+    article.HasKey(n => n.NewsArticleId); 
+
+    // NewsTag
+    var newsTag = builder.EntitySet<NewsTag>("NewsTag").EntityType;
+    newsTag.HasKey(t => new { t.NewsArticleId, t.TagId }); 
+
+    // Category
+    var category = builder.EntitySet<Category>("Category").EntityType;
+    category.HasKey(c => c.CategoryId); 
+
+    // Tag
+    var tag = builder.EntitySet<Tag>("Tag").EntityType;
+    tag.HasKey(t => t.TagId); 
+
+    return builder.GetEdmModel();
 }
+
