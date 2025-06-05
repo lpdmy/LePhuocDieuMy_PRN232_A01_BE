@@ -34,7 +34,7 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             var accounts = _accountRepo.GetAll().AsQueryable();
             return Ok(accounts);
         }
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -64,7 +64,7 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             _accountRepo.Save();
             return CreatedAtAction(nameof(GetById), new { id = newAccount.AccountId }, newAccount);
         }
-
+        [AllowAnonymous]
         [HttpPut]
         public IActionResult Update([FromBody] AccountUpdateRequest account)
         {

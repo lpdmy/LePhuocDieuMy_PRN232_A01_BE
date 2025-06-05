@@ -25,5 +25,6 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             return _repo.GetAll().AsQueryable();
         }
 
+
     }
 }

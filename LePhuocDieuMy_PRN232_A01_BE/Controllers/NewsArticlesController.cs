@@ -24,6 +24,7 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             var news = _repo.GetByIdWithDetails(id);
