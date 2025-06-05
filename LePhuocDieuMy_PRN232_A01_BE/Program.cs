@@ -1,4 +1,4 @@
-using DataAccess;
+﻿using DataAccess;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using Entities.Validator;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +27,14 @@ builder.Services.AddScoped<INewsTagsRepository, NewsTagsRepository>();
 // Add services to the container.
 
 builder.Services.AddControllers()
-  .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AccountCreateRequestValidator>())
-  .AddJsonOptions(options =>
-  {
-      options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-      options.JsonSerializerOptions.WriteIndented = true;
-  });
+    .AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        opts.JsonSerializerOptions.WriteIndented = true;
+    })
+    .AddOData(opt =>
+        opt.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
+            .AddRouteComponents("odata", GetEdmModel()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -93,16 +96,6 @@ builder.Services.AddDbContext<FUNewsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    })
-    .AddOData(opt =>
-        opt.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
-        .AddRouteComponents("odata", GetEdmModel()));
-
-
 builder.Services.AddAuthentication();
 
 builder.Services.AddAuthorization();
@@ -128,10 +121,6 @@ app.Run();
 static Microsoft.OData.Edm.IEdmModel GetEdmModel()
 {
     var odataBuilder = new ODataConventionModelBuilder();
-    odataBuilder.EntitySet<SystemAccount>("SystemAccounts");
-    odataBuilder.EntitySet<NewsArticle>("NewsArticle");
-    odataBuilder.EntitySet<NewsTag>("NewsTag");
-    odataBuilder.EntitySet<Category>("Category");
-    odataBuilder.EntitySet<Tag>("Tag");
+    odataBuilder.EntitySet<NewsArticle>("NewsArticles"); 
     return odataBuilder.GetEdmModel();
 }

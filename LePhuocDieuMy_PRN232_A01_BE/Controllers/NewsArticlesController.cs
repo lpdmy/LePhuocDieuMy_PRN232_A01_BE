@@ -3,6 +3,7 @@ using FUNewsApp.Models;
 using LePhuocDieuMy_PRN232_A01_BE.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using System.Security.Claims;
 
@@ -40,10 +41,11 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             return Ok(dto);
         }
 
+        [EnableQuery]
         [HttpGet]
-        public async Task<IActionResult> GetAll(int id)
+        public IQueryable<NewsArticle> GetAll()
         {
-            return Ok(_repo.GetAll());
+            return _repo.GetAll().AsQueryable();
         }
 
         [HttpPost]
@@ -120,7 +122,8 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
 
             if (article.CreatedById != int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
                 return Forbid();
-
+            _repoNewsTags.DeleteTags(article.NewsArticleId);
+            _repoNewsTags.Save();
             _repo.Delete(article);
             _repo.Save();
             return NoContent();
