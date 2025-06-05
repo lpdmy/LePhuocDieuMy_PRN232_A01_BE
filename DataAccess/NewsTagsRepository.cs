@@ -15,6 +15,9 @@ namespace DataAccess
         {
         }
 
-       
+        public void DeleteTags(int newsId)
+        {
+           _dbSet.RemoveRange(_dbSet.Where(t => t.NewsArticleId == newsId));
+        }
     }
 }

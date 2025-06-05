@@ -61,9 +61,8 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             };
 
             _repo.Add(article);
-            _repo.Save(); // Sau dòng này EF sẽ cập nhật article.NewsArticleId nếu bạn đang dùng DbContext
+            _repo.Save(); 
 
-            // Kiểm tra xem ID đã được gán chưa
             if (article.NewsArticleId == 0)
             {
                 return StatusCode(500, "Failed to generate NewsArticleId.");
@@ -89,7 +88,7 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, NewsArticleDTO dto)
         {
-            var article = _repo.GetById(id);
+            var article = _repo.GetById(dto.NewsArticleId);
 
             if (article == null) return NotFound();
 
@@ -102,17 +101,14 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             article.CreatedById = dto.AccountId;
 
             // Cập nhật tags
-            article.NewsTags.Clear();
+            _repoNewsTags.DeleteTags(article.NewsArticleId);
             foreach (var tagId in dto.TagIds)
             {
                 var newTag = new NewsTag { TagId = tagId, NewsArticleId = id };
                 _repoNewsTags.Add(newTag);
                 _repoNewsTags.Save();
                 article.NewsTags.Add(newTag);
-
             }
-            _repo.Update(article);
-            _repo.Save();
             return NoContent();
         }
 

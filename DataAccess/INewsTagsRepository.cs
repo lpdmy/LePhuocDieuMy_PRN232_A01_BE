@@ -9,5 +9,6 @@ namespace DataAccess
 {
     public interface INewsTagsRepository : IRepository<NewsTag>
     {
+        public void DeleteTags(int newsId);
     }
 }
