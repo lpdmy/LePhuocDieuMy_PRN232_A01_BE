@@ -21,15 +21,15 @@ public partial class NewsArticle
 
     public bool NewsStatus { get; set; }
 
-    public int CreatedById { get; set; }
+    public int CreatedById { get; set; } = 0;
 
     public int? UpdatedById { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
 
-    public virtual Category Category { get; set; } = null!;
+    public virtual Category? Category { get; set; } = null!;
 
-    public virtual SystemAccount CreatedBy { get; set; } = null!;
+    public virtual SystemAccount? CreatedBy { get; set; } = null!;
 
     public virtual ICollection<NewsTag> NewsTags { get; set; } = new List<NewsTag>();
 

@@ -36,13 +36,16 @@ namespace DataAccess
 
         public NewsArticle? GetByIdWithDetails(int id)
         {
-            return _context.NewsArticles
+            var article = _context.NewsArticles
                 .Include(n => n.Category)
                 .Include(n => n.CreatedBy)
                 .Include(n => n.UpdatedBy)
                 .Include(n => n.NewsTags)
                     .ThenInclude(nt => nt.Tag)
                 .FirstOrDefault(n => n.NewsArticleId == id);
+            var tagList = _context.NewsTags.Where(t => t.NewsArticleId == article.NewsArticleId);
+            article.NewsTags = tagList.ToList();
+            return article;
         }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess
 {
@@ -28,6 +23,16 @@ namespace DataAccess
 
         public void Delete(T entity) => _dbSet.Remove(entity);
 
-        public void Save() => _context.SaveChanges();
+        public void Save()
+        {
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 }

@@ -36,10 +36,27 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             return Ok(categories);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            /* var categories = _categoryRepo.GetAll()
+                 .Select(c => new CategoryDto
+                 {
+                     CategoryId = c.CategoryId,
+                     CategoryName = c.CategoryName
+                 });*/
+            var category = _categoryRepo.GetById(id);
+
+            return Ok(category);
+        }
+
+
         [HttpPost]
         public IActionResult Create(Category category)
         {
             _categoryRepo.Add(category);
+            _categoryRepo.Save();
+
             return CreatedAtAction(nameof(GetAll), new { id = category.CategoryId }, category);
         }
 
@@ -49,7 +66,12 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             var category = _categoryRepo.GetById(id);
             if (category == null) return NotFound();
             category.CategoryName = updated.CategoryName;
+            category.CategoryDescription = updated.CategoryDescription;
+            category.IsActive = updated.IsActive;
+            category.ParentCategoryId = updated.ParentCategoryId;
             _categoryRepo.Update(category);
+            _categoryRepo.Save();
+
             return NoContent();
         }
 
@@ -63,6 +85,8 @@ namespace LePhuocDieuMy_PRN232_A01_BE.Controllers
             var category = _categoryRepo.GetById(id);
             if (category == null) return NotFound();
             _categoryRepo.Delete(category);
+            _categoryRepo.Save();
+
             return NoContent();
         }
     }
